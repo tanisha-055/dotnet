@@ -1,0 +1,138 @@
+﻿@model UserRegistrationApp.Models.RegisterViewModel
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h2>User Registration</h2>
+
+<p>
+    <strong>Tanisha Shrestha</strong> 
+</p>
+<hr />
+
+<form id="registrationForm" method="post">
+
+    <div>
+        <label>Username</label>
+        <input type="text" id="Username" name="Username" />
+        <span id="usernameError" style="color:red;"></span>
+    </div>
+
+    <br />
+
+    <div>
+        <label>Email</label>
+        <input type="text" id="Email" name="Email" />
+        <span id="emailError" style="color:red;"></span>
+    </div>
+
+    <br />
+
+    <div>
+        <label>Password</label>
+        <input type="password" id="Password" name="Password" />
+        <span id="passwordError" style="color:red;"></span>
+    </div>
+
+    <br />
+
+    <div>
+        <label>Confirm Password</label>
+        <input type="password" id="ConfirmPassword" name="ConfirmPassword" />
+        <span id="confirmPasswordError" style="color:red;"></span>
+    </div>
+
+    <br />
+
+    <button type="submit">Register</button>
+
+</form>
+
+@section Scripts {
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+
+            $("#registrationForm").submit(function (event) {
+
+                event.preventDefault();
+
+                $("#usernameError").text("");
+                $("#emailError").text("");
+                $("#passwordError").text("");
+                $("#confirmPasswordError").text("");
+
+                var valid = true;
+
+                var username = $("#Username").val().trim();
+                var email = $("#Email").val().trim();
+                var password = $("#Password").val();
+                var confirmPassword = $("#ConfirmPassword").val();
+
+                // Username
+                if (username === "") {
+                    $("#usernameError").text("Username is required.");
+                    valid = false;
+                }
+
+                // Email
+                if (email === "") {
+
+                    $("#emailError").text("Email is required.");
+                    valid = false;
+
+                } else if (email.indexOf("@@") == -1 ||
+                    email.indexOf(".") == -1) {
+
+                    $("#emailError").text("Please enter a valid email address.");
+                    valid = false;
+                }
+
+                // Password
+                if (password === "") {
+
+                    $("#passwordError").text("Password is required.");
+                    valid = false;
+
+                } else if (password.length < 8) {
+
+                    $("#passwordError").text(
+                        "Password must be at least 8 characters."
+                    );
+
+                    valid = false;
+                }
+
+                // Confirm password
+                if (confirmPassword === "") {
+
+                    $("#confirmPasswordError").text(
+                        "Confirm Password is required."
+                    );
+
+                    valid = false;
+
+                } else if (confirmPassword !== password) {
+
+                    $("#confirmPasswordError").text(
+                        "Passwords do not match."
+                    );
+
+                    valid = false;
+                }
+
+                // Submit
+                if (valid) {
+                    this.submit();
+                }
+
+            });
+
+        });
+
+    </script>
+}
