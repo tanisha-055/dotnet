@@ -1,11 +1,13 @@
 ﻿FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-COPY UserRegistrationApp.csproj .
-RUN dotnet restore
+COPY UserRegistrationApp/UserRegistrationApp.csproj UserRegistrationApp/
+RUN dotnet restore UserRegistrationApp/UserRegistrationApp.csproj
 
-COPY . .
-RUN dotnet publish -c Release -o /app/publish
+COPY UserRegistrationApp/ UserRegistrationApp/
+
+WORKDIR /src/UserRegistrationApp
+RUN dotnet publish UserRegistrationApp.csproj -c Release -o /app/publish
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
